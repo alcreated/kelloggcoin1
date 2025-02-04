@@ -20,6 +20,26 @@ blockchain = [
 # Write code below that returns the number of KelloggCoin that each user has in their 
 # KelloggCoin "wallet".
 
+def calculate_wallet_balances(blockchain)
+  wallet_balances = Hash.new(0) # Initialize a hash with default value 0
+
+  blockchain.each do |transaction|
+    from_user = transaction["from_user"]
+    to_user = transaction["to_user"]
+    amount = transaction["amount"]
+
+    # Deduct from the sender if it's not from ICO
+    wallet_balances[from_user] -= amount if from_user
+    
+    # Credit the recipient
+    wallet_balances[to_user] += amount
+  end
+
+  wallet_balances
+end
+
+
+
 # It should print out:
 # Ben's KelloggCoin balance is 14000
 # Brian's KelloggCoin balance is 13000
@@ -27,3 +47,8 @@ blockchain = [
 # Anthony's KelloggCoin balance is 2650
 
 # 👇👇👇 Your code HERE 👇👇👇
+
+
+# Call the function and print the wallet balances
+wallets = calculate_wallet_balances(blockchain)
+puts wallets
